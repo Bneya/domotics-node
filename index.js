@@ -3,8 +3,10 @@ import express from 'express';
 import formidable from 'formidable';
 import fs from 'fs';
 import { exec } from 'child_process';
+import cors from 'cors'
 
 const app = express();
+app.use(cors())
 
 const port = 5000;
 
