@@ -2,6 +2,7 @@ import express from 'express';
 // import formidable from 'express-formidable';
 import formidable from 'formidable';
 import fs from 'fs';
+import { exec } from 'child_process';
 
 const app = express();
 
@@ -28,11 +29,24 @@ app.post('/flow', function (req, res) {
     var form = new formidable.IncomingForm();
 
     form.parse(req, function (err, fields, files) {
-        // console.log('files', files);
+
+        console.log('files', files);
         var oldpath = files.flow.path;
         var newpath = './uploads/' + 'flow.json';
         fs.rename(oldpath, newpath, function (err) {});
         console.log('error', err);
+    });
+
+    exec("node-red-restart", (error, stdout, stderr) => {
+        if (error) {
+            console.log(`error: ${error.message}`);
+            return;
+        }
+        if (stderr) {
+            console.log(`stderr: ${stderr}`);
+            return;
+        }
+        console.log(`stdout: ${stdout}`);
     });
 
     res.send('POST /flow');
