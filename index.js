@@ -59,8 +59,10 @@ app.post('/flow', function (req, res) {
 
         console.log('files', files);
         var oldpath = files.flow.path;
-        var newpath = './uploads/' + 'flow.json';
-        fs.rename(oldpath, newpath, function (err) {});
+        var newpath = '../node-red-flows/' + 'flow.json';
+        fs.rename(oldpath, newpath, function (err) {
+            console.log('rename err', err);
+        });
         console.log('error', err);
     });
 
