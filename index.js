@@ -1,14 +1,18 @@
-import express from 'express';
-// import formidable from 'express-formidable';
-import formidable from 'formidable';
-import fs from 'fs';
-import { exec } from 'child_process';
-import cors from 'cors'
+// import express from 'express';
+const express = require('express')
+const formidable = require('formidable')
+const fs = require('fs')
+const { exec } = require('child_process')
+const cors = require('cors')
+const startCrons = require('./cron-jobs')
+require('dotenv').config()
+
+const { updateFlow } = require('./cron-jobs/tasks')
 
 const app = express();
 app.use(cors())
 
-const port = 5000;
+const port = process.env.PORT || 5000;
 
 // Para poder subir archivos
 // app.use(formidable({
@@ -81,6 +85,14 @@ app.post('/flow', function (req, res) {
     res.send('POST /flow');
             
 })
+
+app.get('/updateFlow', function (req, res) {
+    updateFlow();
+    res.send('adsad');
+})
+
+// Inicia cronJobs
+startCrons();
 
 
 app.listen(port, () => {
