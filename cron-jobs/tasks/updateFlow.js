@@ -9,11 +9,11 @@ const updateFlow = async () => {
   console.log('url', url);
   const response = await axios.get(url, { timeout: 3000 })
 
-  const newFlow = JSON.stringify(response.data);
+  const newFlow = JSON.stringify(response.data.flow);
   console.log('newFlow', newFlow);
 
   // Guarda el archivo flow con la nueva info descargada
-  const filePath = `${process.env.filePath}/flow.json`;
+  const filePath = `${process.env.FILEPATH}/flow.json`;
   console.log('filePath', filePath);
 
   fs.writeFile(filePath, newFlow, function (err) {
