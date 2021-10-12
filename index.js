@@ -5,6 +5,9 @@ require('dotenv').config()
 // mqtt
 require('./mqtt')
 
+// websocket
+require('./websocket')
+
 
 
 const app = express();
