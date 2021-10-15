@@ -1,4 +1,5 @@
-const io = require('socket.io-client')
+const io = require('socket.io-client');
+const { updatePasslist } = require('../mqtt/actions');
 
 const socket = io(process.env.WEBSOCKET_URL, {
   reconnect: true,
@@ -16,6 +17,4 @@ socket.on('heyy', (msg) => {
   console.log('heyy', msg);
 })
 
-socket.on('addToPasslist', (msg) => {
-  console.log('msg', msg);
-})
+socket.on('updatePasslist', updatePasslist)

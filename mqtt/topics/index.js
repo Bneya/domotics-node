@@ -1,3 +1,4 @@
-const bridgeEvent = require('./bridge-event')
+const bridgeEvent = require('./bridge-event');
+const responseOptions = require('./responseOptions');
 
-module.exports = { bridgeEvent }
+module.exports = { bridgeEvent, responseOptions }
