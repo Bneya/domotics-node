@@ -1,3 +1,4 @@
 const updatePasslist = require('./updatePasslist');
+const updateFlow = require('./updateFlow');
 
-module.exports = { updatePasslist };
+module.exports = { updatePasslist, updateFlow };

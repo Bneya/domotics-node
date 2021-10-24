@@ -1,5 +1,5 @@
 
-const { updatePasslist } = require('../mqtt/actions');
+const { updatePasslist, updateFlow } = require('../mqtt/actions');
 const socket = require('./websocket');
 
 socket.on('connect', function (socket) {
@@ -11,5 +11,6 @@ socket.on('heyy', (msg) => {
 })
 
 socket.on('updatePasslist', updatePasslist);
+socket.on('updateFlow', updateFlow);
 
 module.exports = socket;
