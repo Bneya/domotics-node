@@ -5,7 +5,11 @@ const bridgeEvent = ({ msg }) => {
 
   // Avisa al server si se conectó algo
   if (msg.type === 'device_joined') {
-    const socketMsg = `Se unió el dispositivo ${msg.data.friendly_name}, ieee ${msg.data.ieee_address}`
+    const { friendly_name, ieee_address } = msg.data;
+    const socketMsg = {
+      description: `Se unió el dispositivo ${friendly_name}, ieee ${ieee_address}`,
+      data: { friendly_name, ieee_address },
+    }
     console.log(socketMsg);
     websocket.emit('deviceJoined', socketMsg);
   }
