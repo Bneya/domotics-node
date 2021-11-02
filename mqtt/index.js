@@ -1,13 +1,17 @@
 const mqtt = require('mqtt')
 const subscribe = require('./subscribe')
-const { bridgeEvent, responseOptions } = require('./topics')
+const {
+  bridgeEvent,
+  responseOptions,
+  handleLastSeen
+} = require('./topics')
 
 const client = mqtt.connect(process.env.MQTTSERVER)
 
 client.on('connect', function () {
-  subscribe({ client, topic: 'zigbee2mqtt/control' });
   subscribe({ client, topic: 'zigbee2mqtt/bridge/event' });
   subscribe({ client, topic: 'zigbee2mqtt/bridge/response/options' });
+  subscribe({ client, topic: 'zigbee2mqtt/+' }); // Any topic
 })
 
 
@@ -20,9 +24,6 @@ client.on('message', function (topic, message) {
     case 'zigbee2mqtt/bridge/event':
       bridgeEvent({ msg });
       break;
-    case 'zigbee2mqtt/control':
-      console.log('controlllllllllllll', msg);
-      break
     case 'zigbee2mqtt/bridge/response/options':
       responseOptions({ msg, client });
       break;
@@ -30,4 +31,7 @@ client.on('message', function (topic, message) {
       console.log('Topic suscrito, pero no manejado', topic, msg);
       break;
   }
+
+  // Manejo para tener actualizado el last_seen
+  handleLastSeen({ topic, msg });
 })

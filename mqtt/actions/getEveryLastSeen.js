@@ -1,33 +1,28 @@
 const fs = require('fs');
+const { getLastSeenByTopic } = require('../../utils/lastSeenManager');
 
-const getEveryLastSeen = async (acknowledge) => {
-  console.log('getEveryLastSeen ejecutándose');
-  console.log('Z2MPATH', process.env.Z2MPATH);
+const getEveryLastSeen = async (friendlyNames, acknowledge) => {
 
   // Leemos el archivo de db
   const dbFilePath = `${process.env.Z2MPATH}/data/database.db`;
   const fileInfo = ((fs.readFileSync(dbFilePath)).toString()).split('\n');
   const infoJson = fileInfo.map((entry) => JSON.parse(entry));
-  
-  // console.log('fileInfo', fileInfo);
-  // console.log('infoJson', infoJson);
 
-  // Armamos un resumen de los lastSeen de los dispositivos
+  // Armamos un resumen de los lastSeen según registro interno o DB
   const lastSeenInfo = {};
   infoJson.forEach(device => {
+
+    // lastSeen según registro interno si lo tenemos o si no, de DB
+    const friendlyName = friendlyNames[device.ieeeAddr] || 'unknown';
+    const lastSeenInternal = getLastSeenByTopic({ topic: friendlyName });
+    const lastSeenDb = device.lastSeen;
+    const lastSeen = lastSeenInternal ? lastSeenInternal : lastSeenDb;
+
     lastSeenInfo[device.ieeeAddr] = {
       type: device.type,
-      lastSeen: device.lastSeen,
+      lastSeen,
     }
   });
-  // const everyLastSeen = infoJson.map((device) => {
-  //   return {
-  //     ieeeAddr: device.ieeeAddr,
-  //     type: device.type,
-  //     lastSeen: device.lastSeen,
-  //   }
-  // });
-  console.log('everyLastSeen', lastSeenInfo);
 
   // Avisamos a nuestro caller del resultado de la operación
   acknowledge({
