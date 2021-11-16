@@ -5,8 +5,8 @@ client.on('connect', function () {
   client.subscribe('zigbee2mqtt/control', function (err) {
     if (!err) {
       // client.publish('presence', 'Hello mqtt')
-      const msg = JSON.stringify({ id: 'control', force: true });
-      client.publish('zigbee2mqtt/bridge/request/device/remove', msg)
+      // const msg = JSON.stringify({ id: 'control', force: true });
+      // client.publish('zigbee2mqtt/bridge/request/device/remove', msg)
     }
   })
 })
