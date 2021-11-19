@@ -3,6 +3,7 @@ const client = mqtt.connect(process.env.MQTTSERVER);
 
 const updatePasslist = async (passlist, acknowledge) => {
   // Publicamos la nueva passlist
+  console.log('nueva passlist', passlist);
   const msg = JSON.stringify({
     options: {
       passlist,
@@ -13,7 +14,8 @@ const updatePasslist = async (passlist, acknowledge) => {
   // Triggeramos callback para decir que funcionó
   // TODO: que compruebe el mensaje de response/options como userManagement
   acknowledge({
-    status: 'ok'
+    status: 'ok',
+    success: true,
   })
 
 }
