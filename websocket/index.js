@@ -3,6 +3,7 @@ const {
   updatePasslist,
   updateFlow,
   getEveryLastSeen,
+  executeRawMqtt,
 } = require('../mqtt/actions');
 const socket = require('./websocket');
 
@@ -17,5 +18,6 @@ socket.on('heyy', (msg) => {
 socket.on('updatePasslist', updatePasslist);
 socket.on('updateFlow', updateFlow);
 socket.on('getEveryLastSeen', getEveryLastSeen);
+socket.on('executeRawMqtt', executeRawMqtt);
 
 module.exports = socket;
